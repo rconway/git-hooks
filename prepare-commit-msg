@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# Enforce Smart Commit message formatting, which basically insists that
+# the commit message includes the Jira ticket number (EOEPCA-<number>).
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+grep -E '.*(^|[[:space:]])EOEPCA-[[:digit:]]+($|[[:space:]]).*' "${COMMIT_MSG_FILE}"
+if [ $? -ne 0 ]
+then
+  echo >&2 "[REJECTED] Commit message does not follow Smart Commit formatting - message must include 'EOEPCA-<number>'"
+  exit 1
+fi
